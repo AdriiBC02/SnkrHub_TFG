@@ -135,9 +135,9 @@ const CheckoutPage = () => {
         await router.push('/checkout/success');
         
         // Limpiar carrito después del pedido exitoso (con delay para asegurar la redirección)
-        setTimeout(() => {
-          clearCart();
-        }, 100);
+        // setTimeout(() => {
+        //   clearCart();
+        // }, 100);
 
       } else {
         throw new Error('Failed to create order');
