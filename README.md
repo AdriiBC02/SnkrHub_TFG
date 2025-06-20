@@ -19,8 +19,6 @@
 - **TypeScript** - Tipado estático para mayor robustez del código
 - **Tailwind CSS** - Framework de CSS utility-first para diseño responsive
 - **Radix UI** - Componentes de interfaz accesibles y personalizables
-- **React Hook Form** - Gestión de formularios eficiente
-- **Zod** - Validación de esquemas de datos
 
 ### Backend y Base de Datos
 - **Supabase** - Backend-as-a-Service con base de datos PostgreSQL
@@ -30,8 +28,6 @@
 ### Herramientas Adicionales
 - **Lucide React** - Iconografía moderna
 - **Sonner** - Notificaciones toast elegantes
-- **js-cookie** - Gestión de cookies del lado del cliente
-- **date-fns** - Manipulación de fechas
 
 ## 🏗️ Arquitectura del Proyecto
 
@@ -55,21 +51,13 @@ SneakerHub/
 │   ├── supabase.ts       # Cliente de Supabase
 │   └── CartContext.tsx   # Contexto del carrito
 ├── hooks/                # Custom hooks
-└── supabase/             # Configuración de Supabase
 ```
 
 ## 🚀 Funcionalidades Implementadas
 
-### 👤 Gestión de Usuarios
-- **Registro e Inicio de Sesión**: Sistema de autenticación completo
-- **Perfil de Usuario**: Gestión de información personal
-- **Historial de Pedidos**: Seguimiento de compras anteriores
-
 ### 🛍️ Catálogo de Productos
 - **Grid de Zapatillas**: Visualización en cuadrícula responsive
-- **Filtros y Búsqueda**: Filtrado por marca, precio y características
 - **Productos Destacados**: Sección de productos especiales
-- **Detalles del Producto**: Información completa de cada zapatilla
 
 ### 🛒 Sistema de Carrito
 - **Carrito Persistente**: Los productos se mantienen entre sesiones
@@ -85,18 +73,12 @@ SneakerHub/
 ### 🔧 Panel de Administración
 - **Gestión de Productos**: CRUD completo de zapatillas
 - **Gestión de Pedidos**: Visualización y actualización de órdenes
-- **Dashboard**: Estadísticas y métricas de ventas
-- **Gestión de Usuarios**: Administración de cuentas
 
 ## 🗄️ Base de Datos
 
 ### Tablas Principales
 
 ```sql
--- Tabla de usuarios (manejada por Supabase Auth)
-users (
-  id, email, created_at, updated_at
-)
 
 -- Tabla de zapatillas
 sneakers (
@@ -111,38 +93,27 @@ orders (
   shipping_address, created_at
 )
 
--- Tabla de items del pedido
-order_items (
-  id, order_id, sneaker_id, quantity, price
-)
 ```
 
 ### Seguridad
 - **Row Level Security (RLS)**: Políticas de seguridad a nivel de fila
-- **Autenticación JWT**: Tokens seguros para sesiones
-- **Validación de Datos**: Esquemas de validación con Zod
 
 ## 🎨 Diseño y UX
 
 ### Principios de Diseño
 - **Responsive Design**: Adaptable a todos los dispositivos
-- **Accesibilidad**: Cumplimiento de estándares WCAG
 - **Performance**: Optimización de imágenes y carga
 - **Consistencia Visual**: Sistema de diseño unificado
 
 ### Componentes UI
 - **Sistema de Componentes**: Biblioteca de componentes reutilizables
-- **Tema Personalizable**: Soporte para modo claro/oscuro
 - **Animaciones**: Transiciones suaves y feedback visual
 - **Iconografía**: Iconos consistentes con Lucide React
 
 ## 🔒 Seguridad
 
 ### Medidas Implementadas
-- **Autenticación Segura**: Supabase Auth con JWT
-- **Validación de Entrada**: Esquemas de validación robustos
-- **Protección CSRF**: Tokens de seguridad
-- **Sanitización de Datos**: Limpieza de inputs del usuario
+- **Autenticación Segura**: Supabase Auth
 - **Variables de Entorno**: Configuración segura de credenciales
 
 ## 📱 Características Técnicas
@@ -155,7 +126,6 @@ order_items (
 
 ### SEO
 - **Meta Tags**: Optimización para motores de búsqueda
-- **Sitemap**: Generación automática de sitemap
 - **Structured Data**: Datos estructurados para productos
 - **URLs Amigables**: Rutas SEO-friendly
 
@@ -201,37 +171,6 @@ order_items (
    npm start
    ```
 
-## 📊 Métricas y Rendimiento
-
-### Lighthouse Scores
-- **Performance**: 95+
-- **Accessibility**: 100
-- **Best Practices**: 100
-- **SEO**: 100
-
-### Optimizaciones Implementadas
-- **Lazy Loading**: Carga diferida de imágenes
-- **Bundle Optimization**: Minimización de JavaScript
-- **Caching**: Estrategias de caché eficientes
-- **CDN**: Distribución de contenido global
-
-## 🧪 Testing
-
-### Estrategia de Testing
-- **Unit Tests**: Pruebas de componentes individuales
-- **Integration Tests**: Pruebas de flujos completos
-- **E2E Tests**: Pruebas de usuario real
-- **Performance Tests**: Monitoreo de rendimiento
-
-## 📈 Escalabilidad
-
-### Consideraciones Futuras
-- **Microservicios**: Arquitectura escalable
-- **CDN Global**: Distribución de contenido
-- **Caching Redis**: Caché de alto rendimiento
-- **Load Balancing**: Balanceo de carga
-- **Monitoring**: Monitoreo y alertas
-
 ## 🎓 Aprendizajes del TFG
 
 ### Competencias Desarrolladas
@@ -240,7 +179,6 @@ order_items (
 - **Arquitectura de Software**: Patrones y mejores prácticas
 - **DevOps**: Despliegue y configuración
 - **UX/UI Design**: Experiencia de usuario
-- **Seguridad Web**: Protección de datos y usuarios
 
 ### Desafíos Superados
 - **Integración de APIs**: Supabase y servicios externos
@@ -249,21 +187,10 @@ order_items (
 - **Performance**: Optimización de rendimiento
 - **Testing**: Cobertura de pruebas completa
 
-## 📝 Documentación Adicional
-
-- **DOCUMENTACION_PROYECTO.md**: Documentación técnica detallada
-- **TECHNICAL_DOCUMENTATION.md**: Especificaciones técnicas
-- **TFG_DOCUMENTATION.md**: Documentación académica
-- **PERSONAL_GUIDE.md**: Guía de desarrollo personal
-
 ## 👨‍💻 Autor
 
-**Adrián Bernal** - Estudiante de Ingeniería Informática
-
-## 📄 Licencia
-
-Este proyecto es parte de un Trabajo de Fin de Grado y está sujeto a las políticas académicas de la institución.
+**Adrián Buenaño Cañas** - Estudiante de Grado Superior de Desarrollo de Aplicaciones Web
 
 ---
 
-*Desarrollado con ❤️ para el TFG de Ingeniería Informática* 
+*Desarrollado con ❤️ para el TFG de Grado Superior de Desarrollo de Aplicaciones Web* 

@@ -1,13 +1,19 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* Estilos Globales de SneakerHub */
+/* Este archivo contiene la configuración base de Tailwind CSS y variables CSS personalizadas */
 
+/* Importaciones de Tailwind CSS */
+@tailwind base;      /* Estilos base y reset */
+@tailwind components; /* Componentes predefinidos */
+@tailwind utilities;  /* Clases de utilidad */
+
+/* Variables CSS para modo claro (por defecto) */
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
 }
 
+/* Variables CSS para modo oscuro (preferencia del sistema) */
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
@@ -16,66 +22,79 @@
   }
 }
 
+/* Configuración de variables CSS personalizadas para el tema */
 @layer base {
+  /* Variables para modo claro */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
+    --background: 0 0% 100%;           /* Fondo blanco */
+    --foreground: 0 0% 3.9%;           /* Texto casi negro */
+    --card: 0 0% 100%;                 /* Fondo de tarjetas */
+    --card-foreground: 0 0% 3.9%;      /* Texto de tarjetas */
+    --popover: 0 0% 100%;              /* Fondo de popovers */
+    --popover-foreground: 0 0% 3.9%;   /* Texto de popovers */
+    --primary: 0 0% 9%;                /* Color primario */
+    --primary-foreground: 0 0% 98%;    /* Texto sobre primario */
+    --secondary: 0 0% 96.1%;           /* Color secundario */
+    --secondary-foreground: 0 0% 9%;   /* Texto sobre secundario */
+    --muted: 0 0% 96.1%;               /* Color muted */
+    --muted-foreground: 0 0% 45.1%;    /* Texto muted */
+    --accent: 0 0% 96.1%;              /* Color de acento */
+    --accent-foreground: 0 0% 9%;      /* Texto de acento */
+    --destructive: 0 84.2% 60.2%;      /* Color destructivo (rojo) */
+    --destructive-foreground: 0 0% 98%; /* Texto sobre destructivo */
+    --border: 0 0% 89.8%;              /* Color de bordes */
+    --input: 0 0% 89.8%;               /* Color de inputs */
+    --ring: 0 0% 3.9%;                 /* Color de focus rings */
+    
+    /* Colores para gráficos y charts */
+    --chart-1: 12 76% 61%;             /* Naranja */
+    --chart-2: 173 58% 39%;            /* Verde azulado */
+    --chart-3: 197 37% 24%;            /* Azul oscuro */
+    --chart-4: 43 74% 66%;             /* Amarillo */
+    --chart-5: 27 87% 67%;             /* Naranja brillante */
+    
+    --radius: 0.5rem;                  /* Radio de bordes por defecto */
   }
+  
+  /* Variables para modo oscuro */
   .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --background: 0 0% 3.9%;           /* Fondo negro */
+    --foreground: 0 0% 98%;            /* Texto blanco */
+    --card: 0 0% 3.9%;                 /* Fondo de tarjetas oscuro */
+    --card-foreground: 0 0% 98%;       /* Texto de tarjetas claro */
+    --popover: 0 0% 3.9%;              /* Fondo de popovers oscuro */
+    --popover-foreground: 0 0% 98%;    /* Texto de popovers claro */
+    --primary: 0 0% 98%;               /* Color primario claro */
+    --primary-foreground: 0 0% 9%;     /* Texto sobre primario oscuro */
+    --secondary: 0 0% 14.9%;           /* Color secundario oscuro */
+    --secondary-foreground: 0 0% 98%;  /* Texto sobre secundario claro */
+    --muted: 0 0% 14.9%;               /* Color muted oscuro */
+    --muted-foreground: 0 0% 63.9%;    /* Texto muted claro */
+    --accent: 0 0% 14.9%;              /* Color de acento oscuro */
+    --accent-foreground: 0 0% 98%;     /* Texto de acento claro */
+    --destructive: 0 62.8% 30.6%;      /* Color destructivo oscuro */
+    --destructive-foreground: 0 0% 98%; /* Texto sobre destructivo claro */
+    --border: 0 0% 14.9%;              /* Color de bordes oscuro */
+    --input: 0 0% 14.9%;               /* Color de inputs oscuro */
+    --ring: 0 0% 83.1%;                /* Color de focus rings claro */
+    
+    /* Colores para gráficos en modo oscuro */
+    --chart-1: 220 70% 50%;            /* Azul */
+    --chart-2: 160 60% 45%;            /* Verde */
+    --chart-3: 30 80% 55%;             /* Naranja */
+    --chart-4: 280 65% 60%;            /* Púrpura */
+    --chart-5: 340 75% 55%;            /* Rosa */
   }
 }
 
+/* Estilos base aplicados globalmente */
 @layer base {
+  /* Aplica el color de borde por defecto a todos los elementos */
   * {
     @apply border-border;
   }
+  
+  /* Configura el fondo y color de texto del body */
   body {
     @apply bg-background text-foreground;
   }

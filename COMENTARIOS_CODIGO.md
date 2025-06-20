@@ -138,11 +138,6 @@ const fetchSneakers = async () => {
 };
 ```
 
-**Patrones de Diseño Utilizados**:
-- **Builder Pattern**: Construcción de queries dinámicas
-- **Error Boundary**: Manejo robusto de errores
-- **Loading States**: Estados de carga para mejor UX
-
 ---
 
 ## 🎨 Sistema de Componentes UI
@@ -202,12 +197,6 @@ export function middleware(request: NextRequest) {
 }
 ```
 
-**Flujo de Autenticación**:
-1. **Registro**: Formulario con validación Zod
-2. **Login**: Autenticación con JWT
-3. **Protección**: Middleware en rutas privadas
-4. **Persistencia**: Tokens en cookies seguras
-
 ---
 
 ## 📱 Responsive Design
@@ -237,63 +226,6 @@ export function middleware(request: NextRequest) {
 
 ---
 
-## 🧪 Testing y Calidad de Código
-
-### **Estrategia de Testing**
-
-```typescript
-// Ejemplo de test unitario para el carrito
-describe('CartContext', () => {
-  it('should add item to cart', () => {
-    // Test de funcionalidad básica
-  });
-  
-  it('should persist cart data', () => {
-    // Test de persistencia
-  });
-});
-```
-
-**Cobertura de Testing**:
-- ✅ **Unit Tests**: Componentes individuales
-- ✅ **Integration Tests**: Flujos completos
-- ✅ **E2E Tests**: Experiencia de usuario
-- ✅ **Performance Tests**: Métricas de rendimiento
-
----
-
-## 🚀 Optimizaciones de Performance
-
-### **Next.js Optimizations**
-
-1. **Image Optimization**:
-   ```typescript
-   import Image from 'next/image';
-   // Optimización automática de imágenes
-   ```
-
-2. **Code Splitting**:
-   ```typescript
-   // Carga diferida de componentes
-   const LazyComponent = dynamic(() => import('./Component'));
-   ```
-
-3. **Bundle Optimization**:
-   - Tree shaking automático
-   - Minimización de código
-   - Compresión gzip
-
-### **Database Optimizations**
-
-```sql
--- Índices para consultas rápidas
-CREATE INDEX idx_sneakers_featured ON sneakers(featured);
-CREATE INDEX idx_sneakers_brand ON sneakers(brand);
-CREATE INDEX idx_orders_user_id ON orders(user_id);
-```
-
----
-
 ## 🔒 Seguridad Implementada
 
 ### **Validación de Datos**
@@ -320,23 +252,6 @@ if (pathname.startsWith('/admin') && !user) {
 
 ---
 
-## 📊 Métricas y Monitoreo
-
-### **Lighthouse Scores**
-
-- **Performance**: 95+ (Optimización de imágenes y bundle)
-- **Accessibility**: 100 (Radix UI + ARIA labels)
-- **Best Practices**: 100 (TypeScript + ESLint)
-- **SEO**: 100 (Meta tags + structured data)
-
-### **Core Web Vitals**
-
-- **LCP**: < 2.5s (Largest Contentful Paint)
-- **FID**: < 100ms (First Input Delay)
-- **CLS**: < 0.1 (Cumulative Layout Shift)
-
----
-
 ## 🎓 Aprendizajes Técnicos del TFG
 
 ### **Competencias Desarrolladas**
@@ -351,7 +266,7 @@ if (pathname.startsWith('/admin') && !user) {
    - Backend: Supabase, PostgreSQL
    - Integración: APIs RESTful
 
-3. **DevOps y Deployment**:
+3. **Deployment**:
    - Configuración de entornos
    - Variables de entorno
    - Optimización de build
@@ -370,7 +285,6 @@ if (pathname.startsWith('/admin') && !user) {
 
 2. **Integración de APIs**:
    - Supabase Auth + Database
-   - Manejo de tokens JWT
    - Row Level Security
 
 3. **Performance Optimization**:
@@ -382,24 +296,6 @@ if (pathname.startsWith('/admin') && !user) {
    - Cobertura de código
    - Tests de integración
    - Performance testing
-
----
-
-## 🔮 Mejoras Futuras
-
-### **Escalabilidad**
-
-1. **Microservicios**: Separar en servicios independientes
-2. **Caching**: Redis para mejorar performance
-3. **CDN**: Distribución global de contenido
-4. **Monitoring**: APM y alertas automáticas
-
-### **Funcionalidades**
-
-1. **Pagos**: Integración con Stripe/PayPal
-2. **Notificaciones**: Push notifications
-3. **Analytics**: Tracking de usuarios
-4. **PWA**: Progressive Web App
 
 ---
 
