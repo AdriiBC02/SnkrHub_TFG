@@ -86,14 +86,14 @@ export default function SneakerGrid({ limit, featuredOnly = false }: SneakerGrid
             <div className="p-4">
               <h3 className="text-xl font-semibold">{sneaker.name}</h3>
               <p className="text-gray-600">{sneaker.brand}</p>
-              <p className="text-lg font-bold mt-2">${sneaker.price}</p>
+              <p className="text-lg font-bold mt-2">€{sneaker.price}</p>
               {sneaker.featured && (
                 <span className="bg-yellow-400 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">Featured</span>
               )}
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full" onClick={() => handleAddToCart(sneaker)}>Add to Cart</Button>
+            <Button className="w-full bg-indigo-600 hover:bg-indigo-700 text-white" onClick={() => handleAddToCart(sneaker)}>Add to Cart</Button>
           </CardFooter>
         </Card>
       ))}

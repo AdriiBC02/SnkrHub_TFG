@@ -35,7 +35,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 text-center text-sm">
-          &copy; 2023 SneakerHub. All rights reserved.
+          &copy; 2024 SneakerHub. All rights reserved.
         </div>
       </div>
     </footer>
