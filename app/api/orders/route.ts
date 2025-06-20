@@ -1,11 +1,17 @@
+// API Route para Orders - Gestión de Pedidos
+// Esta API maneja la creación y consulta de pedidos
+// Endpoint: /api/orders
+
 import { NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
+// Función POST - Crear un nuevo pedido
 export async function POST(request: Request) {
   try {
+    // Obtener los datos del pedido del cuerpo de la petición
     const orderData = await request.json();
 
-    // Validate required fields
+    // Validar campos requeridos
     const requiredFields = ['items', 'total'];
     for (const field of requiredFields) {
       if (!orderData[field]) {
@@ -13,7 +19,7 @@ export async function POST(request: Request) {
       }
     }
 
-    // Insert order into database with existing structure
+    // Insertar pedido en la base de datos con la estructura existente
     const { data, error } = await supabase
       .from('orders')
       .insert([{
@@ -28,11 +34,13 @@ export async function POST(request: Request) {
       }])
       .select();
 
+    // Si hay error en la inserción, retornar error
     if (error) {
       console.error('Error creating order:', error);
       return NextResponse.json({ error: 'Failed to create order' }, { status: 500 });
     }
 
+    // Retornar respuesta exitosa con los datos del pedido creado
     return NextResponse.json({ 
       success: true, 
       order: data[0] 
@@ -44,32 +52,40 @@ export async function POST(request: Request) {
   }
 }
 
+// Función GET - Obtener pedidos con filtros opcionales
 export async function GET(request: Request) {
   try {
+    // Obtener parámetros de consulta de la URL
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('user_id');
     const status = searchParams.get('status');
 
+    // Construir consulta base ordenada por fecha de creación
     let query = supabase
       .from('orders')
       .select('*')
       .order('created_at', { ascending: false });
 
+    // Aplicar filtro por usuario si se proporciona
     if (userId) {
       query = query.eq('user_id', userId);
     }
 
+    // Aplicar filtro por estado si se proporciona
     if (status) {
       query = query.eq('status', status);
     }
 
+    // Ejecutar la consulta
     const { data, error } = await query;
 
+    // Si hay error en la consulta, retornar error
     if (error) {
       console.error('Error fetching orders:', error);
       return NextResponse.json({ error: 'Failed to fetch orders' }, { status: 500 });
     }
 
+    // Retornar los pedidos encontrados
     return NextResponse.json({ orders: data });
 
   } catch (error) {

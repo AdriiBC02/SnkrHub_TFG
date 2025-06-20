@@ -1,5 +1,9 @@
 'use client';
 
+// Página de Gestión de Pedidos - Panel de Administración
+// Esta página permite a los administradores ver y gestionar todos los pedidos
+// Incluye autenticación, listado de pedidos, actualización de estados y detalles
+
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { createClientSideSupabaseClient } from '@/lib/supabase';
@@ -8,6 +12,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/lib/AuthProvider';
 import { Package, Eye, Calendar, MapPin, DollarSign, EuroIcon } from 'lucide-react';
 
+// Interfaz para definir la estructura de un pedido
 interface Order {
   id: string;
   user_id: string | null;
@@ -15,7 +20,7 @@ interface Order {
   status: 'pending' | 'processing' | 'shipped' | 'delivered' | 'cancelled';
   created_at: string;
   updated_at: string;
-  items: any[] | string; // Can be array or JSON string
+  items: any[] | string; // Puede ser array o string JSON
   address: string | null;
   city: string | null;
   country: string | null;
@@ -23,6 +28,7 @@ interface Order {
 }
 
 export default function AdminOrders() {
+  // Estados para manejar los pedidos y la interfaz
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -30,15 +36,17 @@ export default function AdminOrders() {
   const { user } = useAuth();
   const supabase = createClientSideSupabaseClient();
 
+  // Efecto para verificar autenticación al cargar el componente
   useEffect(() => {
     checkAuth();
   }, [user]);
 
+  // Función para verificar si el usuario está autenticado y es administrador
   const checkAuth = async () => {
     if (!user) {
       router.push('/admin/login');
     } else {
-      // Check if the user is an admin
+      // Verificar si el usuario es administrador en la tabla admin_users
       const { data: adminData, error: adminError } = await supabase
         .from('admin_users')
         .select('id')
@@ -54,6 +62,7 @@ export default function AdminOrders() {
     }
   };
 
+  // Función para obtener todos los pedidos desde la base de datos
   const fetchOrders = async () => {
     try {
       const { data, error } = await supabase
@@ -72,6 +81,7 @@ export default function AdminOrders() {
     }
   };
 
+  // Función para actualizar el estado de un pedido
   const updateOrderStatus = async (orderId: string, newStatus: Order['status']) => {
     try {
       const { error } = await supabase
@@ -82,13 +92,14 @@ export default function AdminOrders() {
       if (error) throw error;
 
       toast.success('Order status updated successfully');
-      fetchOrders(); // Refresh the orders list
+      fetchOrders(); // Actualizar la lista de pedidos
     } catch (error) {
       console.error('Error updating order status:', error);
       toast.error('Failed to update order status');
     }
   };
 
+  // Función para obtener el color del badge según el estado del pedido
   const getStatusColor = (status: Order['status']) => {
     switch (status) {
       case 'pending':
@@ -106,6 +117,7 @@ export default function AdminOrders() {
     }
   };
 
+  // Función para formatear fechas en formato español
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('es-ES', {
       year: 'numeric',
@@ -116,10 +128,12 @@ export default function AdminOrders() {
     });
   };
 
+  // Función para generar un ID de pedido legible
   const getOrderId = (order: Order) => {
     return `#${order.id.slice(0, 8).toUpperCase()}`;
   };
 
+  // Función para parsear los items del pedido (pueden venir como array o JSON string)
   const parseItems = (items: any[] | string): any[] => {
     if (Array.isArray(items)) {
       return items;
@@ -135,12 +149,14 @@ export default function AdminOrders() {
     return [];
   };
 
+  // Estado de carga - mostrar indicador mientras se obtienen los datos
   if (isLoading) {
     return <div>Loading...</div>;
   }
 
   return (
     <div className="container mx-auto px-4 py-8">
+      {/* Header con título y botón de regreso */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Orders Management</h1>
         <Button onClick={() => router.push('/admin/dashboard')}>
@@ -148,6 +164,7 @@ export default function AdminOrders() {
         </Button>
       </div>
 
+      {/* Contenido principal - Lista de pedidos o mensaje de no hay pedidos */}
       {orders.length === 0 ? (
         <div className="text-center py-12">
           <Package className="w-16 h-16 text-gray-400 mx-auto mb-4" />
@@ -158,6 +175,7 @@ export default function AdminOrders() {
         <div className="grid gap-6">
           {orders.map((order) => (
             <div key={order.id} className="bg-white rounded-lg shadow-sm border p-6">
+              {/* Header del pedido con información básica */}
               <div className="flex justify-between items-start mb-4">
                 <div>
                   <h3 className="text-lg font-semibold text-gray-900">
@@ -169,9 +187,11 @@ export default function AdminOrders() {
                   </p>
                 </div>
                 <div className="flex items-center space-x-2">
+                  {/* Badge de estado del pedido */}
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
                     {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
                   </span>
+                  {/* Botón para ver/ocultar detalles */}
                   <Button
                     variant="outline"
                     size="sm"
@@ -183,19 +203,23 @@ export default function AdminOrders() {
                 </div>
               </div>
 
+              {/* Información básica del pedido en grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                {/* Ciudad */}
                 <div className="flex items-center space-x-2">
                   <MapPin className="w-4 h-4 text-gray-400" />
                   <span className="text-sm text-gray-600">
                     {order.city || 'No city specified'}
                   </span>
                 </div>
+                {/* Dirección */}
                 <div className="flex items-center space-x-2">
                   <MapPin className="w-4 h-4 text-gray-400" />
                   <span className="text-sm text-gray-600">
                     {order.address ? `${order.address.slice(0, 30)}...` : 'No address specified'}
                   </span>
                 </div>
+                {/* Total del pedido */}
                 <div className="flex items-center space-x-2">
                   <EuroIcon className="w-4 h-4 text-gray-400" />
                   <span className="text-sm font-medium text-gray-900">{order.total}</span>

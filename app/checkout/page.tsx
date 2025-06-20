@@ -1,5 +1,9 @@
 'use client';
 
+// Página de Checkout - Proceso de Compra
+// Esta página maneja el proceso completo de finalización de compra
+// Incluye formulario de envío, validaciones y procesamiento de pedidos
+
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/lib/CartContext';
@@ -7,6 +11,7 @@ import Image from 'next/image';
 import { CreditCard, ShieldCheck, ShoppingCart } from 'lucide-react';
 import { toast } from 'sonner';
 
+// Interfaz para manejar errores de validación de campos
 interface FieldErrors {
   [key: string]: string;
 }
@@ -14,10 +19,13 @@ interface FieldErrors {
 const CheckoutPage = () => {
   const router = useRouter();
   const { cart, clearCart } = useCart();
+  
+  // Cálculo de totales
   const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shipping = 10;
+  const shipping = 10; // Coste de envío fijo
   const totalWithShipping = total + shipping;
 
+  // Estado del formulario de datos del cliente
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -31,16 +39,18 @@ const CheckoutPage = () => {
     cvv: '',
   });
 
+  // Estados para manejo de errores y envío
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Función para manejar cambios en los campos del formulario
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
-    // Clear error when user types
+    // Limpiar error cuando el usuario escribe
     if (fieldErrors[name]) {
       setFieldErrors(prev => ({
         ...prev,
@@ -49,11 +59,12 @@ const CheckoutPage = () => {
     }
   };
 
+  // Función principal para procesar el pedido
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Check for empty required fields
+    // Validación de campos requeridos
     const errors: FieldErrors = {};
     const requiredFields = ['firstName', 'lastName', 'email', 'address', 'city', 'postalCode', 'cardNumber', 'expiryDate', 'cvv'];
     
@@ -63,6 +74,7 @@ const CheckoutPage = () => {
       }
     });
 
+    // Si hay errores, mostrarlos y detener el proceso
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       setIsSubmitting(false);
@@ -70,9 +82,9 @@ const CheckoutPage = () => {
     }
 
     try {
-      // Prepare order data for database with existing structure
+      // Preparar datos del pedido para la base de datos
       const orderData = {
-        user_id: null, // No user authentication in this version
+        user_id: null, // Sin autenticación de usuario en esta versión
         total: totalWithShipping,
         status: 'pending',
         items: cart,
@@ -82,7 +94,7 @@ const CheckoutPage = () => {
         zip_code: formData.postalCode || null
       };
 
-      // Save order to database
+      // Guardar pedido en la base de datos
       const response = await fetch('/api/orders', {
         method: 'POST',
         headers: {
@@ -99,7 +111,7 @@ const CheckoutPage = () => {
       const result = await response.json();
 
       if (result.success) {
-        // Store order details for success page
+        // Almacenar detalles del pedido para la página de éxito
         const orderDetails = {
           orderId: result.order.id,
           items: cart,
@@ -113,15 +125,16 @@ const CheckoutPage = () => {
           date: new Date().toISOString(),
         };
 
+        // Guardar en sessionStorage para la página de éxito
         sessionStorage.setItem('orderDetails', JSON.stringify(orderDetails));
         
-        // Show success message
+        // Mostrar mensaje de éxito
         toast.success('Order placed successfully!');
         
-        // Redirect to success page
+        // Redirigir a la página de éxito
         await router.push('/checkout/success');
         
-        // Clear cart after successful order (with delay to ensure redirect completes)
+        // Limpiar carrito después del pedido exitoso (con delay para asegurar la redirección)
         setTimeout(() => {
           clearCart();
         }, 100);
@@ -138,11 +151,13 @@ const CheckoutPage = () => {
     }
   };
 
+  // Redirigir al carrito si está vacío
   if (cart.length === 0) {
     router.push('/cart');
     return null;
   }
 
+  // Componente helper para renderizar campos de entrada
   const renderInput = (name: keyof typeof formData, label: string, placeholder: string = '', type: string = 'text') => (
     <div>
       <label htmlFor={name} className="block text-sm font-medium text-gray-700 mb-1">
@@ -169,14 +184,16 @@ const CheckoutPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
-        {/* Checkout Steps */}
+        {/* Indicador de pasos del proceso de compra */}
         <div className="mb-12 flex justify-center space-x-16">
+          {/* Paso 1: Carrito (completado) */}
           <div className="flex flex-col items-center">
             <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 mb-2">
               <ShoppingCart className="w-6 h-6" />
             </div>
             <span className="text-sm font-medium text-gray-500">Cart</span>
           </div>
+          {/* Paso 2: Pago y envío (actual) */}
           <div className="flex flex-col items-center">
             <div className="w-12 h-12 rounded-full bg-indigo-600 flex items-center justify-center text-white mb-2">
               <CreditCard className="w-6 h-6" />
@@ -185,10 +202,12 @@ const CheckoutPage = () => {
           </div>
         </div>
         
+        {/* Layout principal con formulario y resumen */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left Column - Form */}
+          {/* Columna izquierda - Formulario de envío */}
           <div className="bg-white rounded-xl shadow-lg overflow-hidden">
             <div className="p-6 space-y-6">
+              {/* Header del formulario */}
               <div className="border-b border-gray-200 pb-6">
                 <div className="flex items-center space-x-2">
                   <CreditCard className="w-6 h-6 text-indigo-600" />
@@ -196,7 +215,9 @@ const CheckoutPage = () => {
                 </div>
               </div>
               
+              {/* Formulario de datos del cliente */}
               <form onSubmit={handleSubmit} className="space-y-6">
+                {/* Información personal */}
                 <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
                   {renderInput('firstName', 'First Name')}
                   {renderInput('lastName', 'Last Name')}

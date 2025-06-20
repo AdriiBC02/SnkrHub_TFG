@@ -1,10 +1,15 @@
 'use client';
 
+// Página de Éxito del Checkout - Confirmación de Pedido
+// Esta página muestra la confirmación del pedido exitoso
+// Recupera los detalles del pedido desde sessionStorage y los muestra al usuario
+
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { CheckCircle2, ShoppingBag } from 'lucide-react';
 
+// Interfaz para definir la estructura de los detalles del pedido
 interface OrderDetails {
   orderId: string;
   items: any[];
@@ -19,8 +24,10 @@ interface OrderDetails {
 }
 
 const CheckoutSuccessPage = () => {
+  // Estado para almacenar los detalles del pedido
   const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
 
+  // Efecto para cargar los detalles del pedido desde sessionStorage
   useEffect(() => {
     const storedOrder = sessionStorage.getItem('orderDetails');
     if (storedOrder) {
@@ -28,6 +35,7 @@ const CheckoutSuccessPage = () => {
     }
   }, []);
 
+  // Estado de carga - si no hay detalles del pedido, mostrar mensaje de error
   if (!orderDetails) {
     return (
       <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -47,6 +55,7 @@ const CheckoutSuccessPage = () => {
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
+        {/* Header de confirmación con icono de éxito */}
         <div className="text-center mb-12">
           <div className="rounded-full bg-green-100 p-4 mx-auto w-16 h-16 flex items-center justify-center mb-4">
             <CheckCircle2 className="w-8 h-8 text-green-600" />
@@ -59,8 +68,10 @@ const CheckoutSuccessPage = () => {
           </p>
         </div>
 
+        {/* Resumen del pedido con productos */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden mb-8">
           <div className="p-6">
+            {/* Header del resumen con número de pedido */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center space-x-2">
                 <ShoppingBag className="w-6 h-6 text-indigo-600" />
@@ -69,9 +80,11 @@ const CheckoutSuccessPage = () => {
               <p className="text-sm text-gray-500">Order {orderDetails.orderId}</p>
             </div>
 
+            {/* Lista de productos del pedido */}
             <div className="space-y-4">
               {orderDetails.items.map((item) => (
                 <div key={item.id} className="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
+                  {/* Imagen del producto */}
                   <div className="relative h-20 w-20 rounded-md overflow-hidden">
                     <Image
                       src={item.image}
@@ -80,16 +93,19 @@ const CheckoutSuccessPage = () => {
                       className="object-cover"
                     />
                   </div>
+                  {/* Información del producto */}
                   <div className="flex-1">
                     <h4 className="text-sm font-medium text-gray-900">{item.name}</h4>
                     <p className="text-sm text-gray-500">{item.brand}</p>
                     <p className="text-sm text-gray-500">Quantity: {item.quantity}</p>
                   </div>
+                  {/* Precio total del item */}
                   <p className="text-sm font-medium text-gray-900">€{item.price * item.quantity}</p>
                 </div>
               ))}
             </div>
 
+            {/* Resumen de costes */}
             <div className="mt-6 border-t border-gray-200 pt-6">
               <div className="flex justify-between text-sm mb-2">
                 <p className="text-gray-600">Subtotal</p>
@@ -107,6 +123,7 @@ const CheckoutSuccessPage = () => {
           </div>
         </div>
 
+        {/* Detalles de envío */}
         <div className="bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="p-6">
             <div className="flex items-center space-x-2 mb-6">
@@ -120,6 +137,7 @@ const CheckoutSuccessPage = () => {
           </div>
         </div>
 
+        {/* Botón para continuar comprando */}
         <div className="mt-8 text-center">
           <Link
             href="/sneakers"
